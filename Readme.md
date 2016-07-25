@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/sunghyuk/overwatch-client.svg?branch=master)](https://travis-ci.org/sunghyuk/overwatch-client)
+
 # overwatch-client 
 playoverwatch.com client for java 
 
