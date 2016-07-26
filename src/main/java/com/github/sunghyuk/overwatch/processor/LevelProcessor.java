@@ -21,8 +21,7 @@ public class LevelProcessor implements ElementsProcessor<Integer> {
     private Map<String, Integer> levelMap;
 
     public LevelProcessor() {
-        InputStream is = LevelProcessor.class.getClassLoader().getResourceAsStream("levelMap.json");
-        try {
+        try (InputStream is = LevelProcessor.class.getClassLoader().getResourceAsStream("levelMap.json");) {
             levelMap = MAPPER.readValue(is, new TypeReference<Map<String, Integer>>() {});
         } catch (IOException e) {
             e.printStackTrace();
