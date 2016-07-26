@@ -12,6 +12,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.MessageFormat;
 import java.util.Locale;
+import java.util.Optional;
 
 /**
  * Created by sunghyuk on 2016. 7. 20..
@@ -25,6 +26,8 @@ public class OverwatchClient {
     private final String platform;
     private final String region;
     private final Locale locale;
+
+    private Exception exception;
 
     private final OverwatchHtmlParser parser;
 
@@ -48,6 +51,10 @@ public class OverwatchClient {
         return locale;
     }
 
+    public Exception getException() {
+        return exception;
+    }
+
     protected String buildPlayerURL(String battleTag) throws UnsupportedEncodingException {
         MessageFormat uriFormat = new MessageFormat("{0}/{1}-{2}/career/{3}/{4}/{5}");
         return uriFormat.format(new Object[]{
@@ -64,20 +71,21 @@ public class OverwatchClient {
         return Jsoup.connect(uri).get();
     }
 
-    public Player findPlayer(String battleTag) {
+    public Optional<Player> findPlayer(String battleTag) {
         CareerPage page = null;
         try {
             String url = buildPlayerURL(battleTag);
             Document document = getDocument(url);
             page = parser.parseCareerPage(document);
         } catch (IOException e) {
-            LOGGER.error("jsoup conneciton error", e);
+            LOGGER.error("jsoup error", e);
+            this.exception = e;
         }
 
         if (page == null) {
-            return null;
+            return Optional.empty();
         }
-        return new Player(battleTag, page);
+        return Optional.of(new Player(battleTag, page));
     }
 
     public static class Builder {

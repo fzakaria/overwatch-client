@@ -4,6 +4,7 @@ import com.github.sunghyuk.overwatch.model.*;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 /**
  * Created by sunghyuk on 2016. 7. 25..
@@ -19,13 +20,13 @@ public class Sample {
     private static void compare(String tag1, String tag2) {
         OverwatchClient client = new OverwatchClient.Builder().locale(new Locale("ko", "KR")).platform("pc").region("kr").build();
 
-        Player player1 = client.findPlayer(tag1);
-        Player player2 = client.findPlayer(tag2);
+        Optional<Player> player1 = client.findPlayer(tag1);
+        Optional<Player> player2 = client.findPlayer(tag2);
 
-        System.out.println(String.format("%s VS %s", player1.getName(), player2.getName()));
+        System.out.println(String.format("%s VS %s", player1.get().getName(), player2.get().getName()));
         System.out.println("=== 주요 통계 ===");
-        for (String key : player1.getQuickPlay().getFeaturedStats().keySet()) {
-            System.out.println(String.format("[%s] %s : %s", key, player1.getQuickPlay().getFeaturedStats().get(key), player2.getQuickPlay().getFeaturedStats().get(key)));
+        for (String key : player1.get().getQuickPlay().getFeaturedStats().keySet()) {
+            System.out.println(String.format("[%s] %s : %s", key, player1.get().getQuickPlay().getFeaturedStats().get(key), player2.get().getQuickPlay().getFeaturedStats().get(key)));
         }
     }
 
@@ -36,9 +37,15 @@ public class Sample {
                 .locale(new Locale("en", "US"))
                 .build();
 
+        // player not found
+        Optional<Player> optional1 = client.findPlayer("abc#12345");
+        if (!optional1.isPresent()) {
+            client.getException().printStackTrace();
+        }
 
         // player info
-        Player player = client.findPlayer("lllllllll#21759");
+        Optional<Player> optional2 = client.findPlayer("lllllllll#21759");
+        Player player = optional2.get();
         String name = player.getName();
         int level = player.getLevel();
         ProfilePlatforms profilePlatforms = player.getProfilePlatforms();

@@ -2,6 +2,7 @@ package com.github.sunghyuk.overwatch;
 
 import com.github.sunghyuk.overwatch.model.Player;
 import org.jsoup.Connection;
+import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.junit.Test;
@@ -17,6 +18,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.Locale;
+import java.util.Optional;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
@@ -50,7 +52,8 @@ public class OverwatchClientTest {
         Mockito.when(connection.get()).thenReturn(document);
 
         OverwatchClient client = new OverwatchClient.Builder().platform("pc").region("kr").locale(new Locale("ko", "KR")).build();
-        Player player = client.findPlayer("abc#12345");
+        Optional<Player> optional = client.findPlayer("abc#12345");
+        Player player = optional.get();
 
         assertThat(player, notNullValue());
         assertThat(player.getName(), is("땡구르르"));
@@ -63,8 +66,20 @@ public class OverwatchClientTest {
         assertThat(player.getAchievements().get("Offense"), hasSize(12));
 
         LOGGER.debug("json: {}", player.toJSON());
+    }
 
+    @Test
+    public void testFindPlayerException() throws IOException {
+        Connection connection = Mockito.mock(Connection.class);
+        PowerMockito.mockStatic(Jsoup.class);
+        PowerMockito.when(Jsoup.connect(Mockito.anyString())).thenReturn(connection);
+        Mockito.when(connection.get()).thenThrow(new HttpStatusException("404", 404, "url"));
 
+        OverwatchClient client = new OverwatchClient.Builder().platform("pc").region("kr").locale(new Locale("ko", "KR")).build();
+        Optional<Player> optional = client.findPlayer("abc#12345");
+        if (!optional.isPresent()) {
+            assertThat(client.getException(), instanceOf(HttpStatusException.class));
+        }
     }
 
     @Test

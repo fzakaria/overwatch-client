@@ -12,9 +12,15 @@ OverwatchClient client = new OverwatchClient.Builder()
         .locale(new Locale("en", "US"))
         .build();
 
+// player not found
+Optional<Player> optional1 = client.findPlayer("abc#12345");
+if (!optional1.isPresent()) {
+    client.getException().printStackTrace();
+}
 
 // player info
-Player player = client.findPlayer("lllllllll#21759");
+Optional<Player> optional2 = client.findPlayer("lllllllll#21759");
+Player player = optional2.get();
 String name = player.getName();
 int level = player.getLevel();
 ProfilePlatforms profilePlatforms = player.getProfilePlatforms();
