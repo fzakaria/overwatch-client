@@ -44,3 +44,6 @@ String json = player.toJSON();
 
 ## Requirements 
 * JDK8+
+
+## License
+Apache License 
