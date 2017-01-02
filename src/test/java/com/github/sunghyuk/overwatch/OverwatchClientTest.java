@@ -31,6 +31,7 @@ import static org.junit.Assert.*;
 public class OverwatchClientTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(OverwatchClientTest.class);
+    private static final String LATEST_HTML = "fixtures/sample_en_us_02_01_2017.html";
 
     @Test
     public void testBuild() {
@@ -42,7 +43,7 @@ public class OverwatchClientTest {
 
     @Test
     public void testFindPlayer() throws IOException {
-        InputStream is = OverwatchHtmlParserTest.class.getClassLoader().getResourceAsStream("fixtures/sample_quick_en_us.html");
+        InputStream is = OverwatchHtmlParserTest.class.getClassLoader().getResourceAsStream(LATEST_HTML);
         Document document = Jsoup.parse(is, "utf-8", "https://playoverwatch.com");
 
         Connection connection = Mockito.mock(Connection.class);
@@ -55,14 +56,14 @@ public class OverwatchClientTest {
         Player player = optional.get();
 
         assertThat(player, notNullValue());
-        assertThat(player.getName(), is("땡구르르"));
+        assertThat(player.getName(), is("Setheron"));
         assertThat(player.getBattleTag(), is("abc#12345"));
         assertThat(player.getProfilePlatforms(), notNullValue());
         assertThat(player.getProfilePlatforms().getPlatforms(), hasSize(5));
         assertThat(player.getPortraitImage(), notNullValue());
 
         LOGGER.debug("{}", player.getAchievements().getCategories());
-        assertThat(player.getAchievements().get("Offense"), hasSize(12));
+        assertThat(player.getAchievements().get("Offense"), hasSize(14));
 
         LOGGER.debug("json: {}", player.toJSON());
     }
@@ -85,6 +86,6 @@ public class OverwatchClientTest {
     public void testBuildURI() throws UnsupportedEncodingException {
         OverwatchClient client = new OverwatchClient.Builder().platform("pc").locale(new Locale("ko", "KR")).build();
         String uri = client.buildPlayerURL("abc#12345");
-        assertThat(uri, is("https://playoverwatch.com/ko-kr/career/pc/kr/abc-12345"));
+        assertThat(uri, is("https://playoverwatch.com/ko-kr/career/pc/abc-12345"));
     }
 }
