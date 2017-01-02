@@ -8,7 +8,6 @@ import java.util.Objects;
 public class ProfilePlatform {
 
     private String platform;
-    private String region;
     private boolean hasAccount;
     private String careerLink;
 
@@ -18,14 +17,6 @@ public class ProfilePlatform {
 
     public void setPlatform(String platform) {
         this.platform = platform;
-    }
-
-    public String getRegion() {
-        return region;
-    }
-
-    public void setRegion(String region) {
-        this.region = region;
     }
 
     public boolean isHasAccount() {
