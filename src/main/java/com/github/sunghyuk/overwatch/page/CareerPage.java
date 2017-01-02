@@ -25,7 +25,7 @@ public final class CareerPage extends Page {
     @Selector(value = "#overview-section > div > div > div > div > div > div.masthead-player-progression > div.player-level", handler = LevelProcessor.class)
     private int level;
 
-    @Selector(value = "#overview-section > div > div > div > div > div > div.masthead-player-progression > div > div.competitive-rank", handler = RankProcessor.class)
+    @Selector(value = "#overview-section > div > div > div > div > div > div.masthead-player-progression > div.competitive-rank", handler = RankProcessor.class)
     private Rank rank;
 
     @Selector(value = "#quick-play > section.content-box.page-wrapper.highlights-section > div > ul", handler = FeaturedStatsProcessor.class)

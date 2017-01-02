@@ -33,7 +33,8 @@ public class OverwatchHtmlParserTest {
         OverwatchHtmlParser parser = new OverwatchHtmlParser();
         CareerPage page = parser.parseCareerPage(document);
         assertThat(page, notNullValue());
-
+        assertThat(page.getRank(), notNullValue());
+        assertThat(page.getRank().getRating(), is(2342));
         LOGGER.debug(page.toJSON());
     }
 
