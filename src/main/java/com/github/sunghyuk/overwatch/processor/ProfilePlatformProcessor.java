@@ -43,6 +43,6 @@ public class ProfilePlatformProcessor implements ElementsProcessor<ProfilePlatfo
     }
 
     public String jsonURL(String id) {
-        return PLATFORMS_JSON_REQ_URL + id;
+        return String.format(PLATFORMS_JSON_REQ_URL, id);
     }
 }

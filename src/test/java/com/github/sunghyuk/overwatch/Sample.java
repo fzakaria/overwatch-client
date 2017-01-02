@@ -18,7 +18,7 @@ public class Sample {
     }
 
     private static void compare(String tag1, String tag2) {
-        OverwatchClient client = new OverwatchClient.Builder().locale(new Locale("ko", "KR")).platform("pc").region("kr").build();
+        OverwatchClient client = new OverwatchClient.Builder().locale(new Locale("ko", "KR")).platform("pc").build();
 
         Optional<Player> player1 = client.findPlayer(tag1);
         Optional<Player> player2 = client.findPlayer(tag2);
@@ -33,7 +33,6 @@ public class Sample {
     private static void apiDemo() {
         OverwatchClient client = new OverwatchClient.Builder()
                 .platform("pc")
-                .region("eu")
                 .locale(new Locale("en", "US"))
                 .build();
 

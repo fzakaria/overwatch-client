@@ -13,19 +13,19 @@ public final class CareerPage extends Page {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CareerPage.class);
 
-    @Selector(value = "#overview-section > div > div.page-wrapper.row.content-box > div > div > div.masthead-player > h1", handler = ElementTextProcessor.class)
+    @Selector(value = "#overview-section > div > div > div > div > div.masthead-player > h1", handler = ElementTextProcessor.class)
     private String name;
 
-    @Selector(value = "#overview-section > div > div.page-wrapper.row.content-box > div > div > div.masthead-player > img", handler = ImageSrcProcessor.class)
+    @Selector(value = "#overview-section > div > div > div > div > div.masthead-player > h1", handler = ImageSrcProcessor.class)
     private String portraitImage;
 
     @Selector(value = "script[id=platform-btn-template] + script", handler = ProfilePlatformProcessor.class)
     private ProfilePlatforms platforms;
 
-    @Selector(value = "#overview-section > div > div.page-wrapper.row.content-box > div > div > div.masthead-player-progression > div > div.player-level", handler = LevelProcessor.class)
+    @Selector(value = "#overview-section > div > div > div > div > div > div.masthead-player-progression > div.player-level", handler = LevelProcessor.class)
     private int level;
 
-    @Selector(value = "#overview-section > div > div.page-wrapper.row.content-box > div > div > div.masthead-player-progression > div > div.competitive-rank", handler = RankProcessor.class)
+    @Selector(value = "#overview-section > div > div > div > div > div > div.masthead-player-progression > div > div.competitive-rank", handler = RankProcessor.class)
     private Rank rank;
 
     @Selector(value = "#quick-play > section.content-box.page-wrapper.highlights-section > div > ul", handler = FeaturedStatsProcessor.class)

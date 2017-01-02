@@ -34,11 +34,10 @@ public class OverwatchClientTest {
 
     @Test
     public void testBuild() {
-        OverwatchClient client = new OverwatchClient.Builder().platform("pc").region("kr").locale(new Locale("ko", "KR")).build();
+        OverwatchClient client = new OverwatchClient.Builder().platform("pc").locale(new Locale("ko", "KR")).build();
         assertThat(client, notNullValue());
         assertThat(client.getLocale(), is(new Locale("ko", "KR")));
         assertThat(client.getPlatform(), is("pc"));
-        assertThat(client.getRegion(), is("kr"));
     }
 
     @Test
@@ -51,7 +50,7 @@ public class OverwatchClientTest {
         PowerMockito.when(Jsoup.connect(Mockito.anyString())).thenReturn(connection);
         Mockito.when(connection.get()).thenReturn(document);
 
-        OverwatchClient client = new OverwatchClient.Builder().platform("pc").region("kr").locale(new Locale("ko", "KR")).build();
+        OverwatchClient client = new OverwatchClient.Builder().platform("pc").locale(new Locale("ko", "KR")).build();
         Optional<Player> optional = client.findPlayer("abc#12345");
         Player player = optional.get();
 
@@ -75,7 +74,7 @@ public class OverwatchClientTest {
         PowerMockito.when(Jsoup.connect(Mockito.anyString())).thenReturn(connection);
         Mockito.when(connection.get()).thenThrow(new HttpStatusException("404", 404, "url"));
 
-        OverwatchClient client = new OverwatchClient.Builder().platform("pc").region("kr").locale(new Locale("ko", "KR")).build();
+        OverwatchClient client = new OverwatchClient.Builder().platform("pc").locale(new Locale("ko", "KR")).build();
         Optional<Player> optional = client.findPlayer("abc#12345");
         if (!optional.isPresent()) {
             assertThat(client.getException(), instanceOf(HttpStatusException.class));
@@ -84,7 +83,7 @@ public class OverwatchClientTest {
 
     @Test
     public void testBuildURI() throws UnsupportedEncodingException {
-        OverwatchClient client = new OverwatchClient.Builder().platform("pc").region("kr").locale(new Locale("ko", "KR")).build();
+        OverwatchClient client = new OverwatchClient.Builder().platform("pc").locale(new Locale("ko", "KR")).build();
         String uri = client.buildPlayerURL("abc#12345");
         assertThat(uri, is("https://playoverwatch.com/ko-kr/career/pc/kr/abc-12345"));
     }
